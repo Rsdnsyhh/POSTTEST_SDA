@@ -27,12 +27,18 @@ string reverseString(string s) {
     Node* stackTop = nullptr;
     string reversed = "";
 
-    // push setiap karakter dari string s ke dalam stack
+    // 1. push setiap karakter dari string s ke dalam stack.
+    // kita looping setiap karakter di string 's'.
+    // kerus, kita 'push' atau masukkan satu per satu ke dalam stack.
+    // karakter pertama masuk paling bawah, terakhir masuk paling atas (LIFO).
     for (char c : s) {
         push(stackTop, c);
     }
 
-    // pop setiap karakter dari stack dan tambahkan ke string
+    // 2. pop setiap karakter dari stack dan tambahkan ke string `reversed`.
+    // selama stack-nya belum kosong, kita 'pop' atau keluarkan karakternya.
+    // karena yang keluar duluan itu yang terakhir masuk,
+    // urutannya jadi kebalik. hasil pop langsung kita gabungin ke string 'reversed'.
     while (stackTop != nullptr) {
         reversed += pop(stackTop);
     }
@@ -46,11 +52,13 @@ int main() {
     string text = "Struktur Data";
     cout << "Teks asli: " << text << endl;
     
+    // proses push, sama seperti di fungsi reverseString
     for (char c : text) {
         push(TOP, c);
     }
 
     string reversedText = "";
+    // proses pop, juga sama logikanya
     while (TOP != nullptr) {
         reversedText += pop(TOP);
     }

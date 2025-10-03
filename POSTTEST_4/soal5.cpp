@@ -9,26 +9,38 @@ struct Node {
 
 void exchangeFirstLast(Node*& head) {
     // kondisi jika list kosong, punya 1, atau 2 elemen tidak perlu ditukar
+    // jika 2 elemen, ditukar juga hasilnya sama aja posisinya (saling nunjuk).
     if (head == nullptr || head->next == head || head->next->next == head) {
         return;
     }
 
-    Node* tail = head->prev;
-    Node* headNext = head->next;
-    Node* tailPrev = tail->prev;
+    // simpan dulu semua node penting biar gak ilang jejak.
+    Node* tail = head->prev;       // ekor lama (node sebelum head)
+    Node* headNext = head->next;   // tetangga kanan head lama
+    Node* tailPrev = tail->prev;   // tetangga kiri tail lama
 
-    // menukar head dan tail
-    // update pointer-pointer yg berhubungan dengan head
-    head->next = tail;
+    // logikanya adalah menyambungkan kembali tetangga-tetangga
+    // ke head dan tail yang sudah bertukar posisi.
+
+    // 1. sambungkan Ekor (tail) yang baru (yaitu head lama)
+    // tetangga kiri ekor lama (tailPrev) sekarang harus nyambung ke head lama.
     head->prev = tailPrev;
     tailPrev->next = head;
 
-    // update pointer-pointer yg berhubungan dengan tail
+    // 2. sambungkan Kepala (head) yang baru (yaitu tail lama)
+    // tetangga kanan head lama (headNext) sekarang harus nyambung ke tail lama.
     tail->next = headNext;
-    tail->prev = head;
     headNext->prev = tail;
+    
+    // 3. sambungkan kepala baru dan ekor baru secara langsung
+    // ini untuk menjaga sifat circular-nya.
+    // ekor baru (head lama) next-nya adalah kepala baru (tail lama)
+    head->next = tail;
+    // kepala baru (tail lama) prev-nya adalah ekor baru (head lama)
+    tail->prev = head;
 
-    // pindahkan head ke posisi tail yg lama
+    // 4. terakhir, update pointer utama `head` di program kita
+    // biar nunjuk ke kepala yang baru.
     head = tail;
 }
 
